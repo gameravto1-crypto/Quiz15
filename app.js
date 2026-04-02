@@ -13,11 +13,11 @@ let cars = [
 app.get('/api/cars', (req, res) => {
     res.json(cars);
 })
-app.get("/users", (req, res) => {
+app.get("/api/cars", (req, res) => {
     res.status(200).send("OK");
 });
 
-app.patch('/users/:id', (req, res) => {
+app.patch('/api/cars/:id', (req, res) => {
     const id = Number(req.params.id);
 
     const cars = cars.find(m => m.id === id);
@@ -26,11 +26,14 @@ app.patch('/users/:id', (req, res) => {
         return res.status(404).json({ message: "მანქანა ამ ID-ით ვერ მოიძებნა" });
     }
 
-    const { title, director, year } = req.body;
+    const { brand, model, year,price,color } = req.body;
 
-    if (title) cars.title = title;
-    if (director) cars.director = director;
+    if (brand) cars.brand = brand;
+    if (model) cars.model = model;
     if (year) cars.year = year;
+    if (price) cars.price = price;
+    if (color) cars.color = color;
+
 
 })
 app.post('/api/cars', (req, res) => {
@@ -47,7 +50,7 @@ app.post('/api/cars', (req, res) => {
         return res.status(400).json({ message: "year უნდა იყოს რიცხვი" });
     }
 
-    const newMovie = {
+    const newCar = {
         id: cars.length + 1,
         brand,
         model,
@@ -62,14 +65,14 @@ app.post('/api/cars', (req, res) => {
 
 })
 
-app.patch("/car/:id", (req, res) => {
+app.patch("/api/cars/:id", (req, res) => {
 
     const id = Number(req.params.id);
 
     const car = car.find(m => m.id === id);
 
     if (!car) {
-        return res.status(404).json({ message: "Movie not found" });
+        return res.status(404).json({ message: "car not found" });
     }
 
     const { brand, model, year,color,price } = req.body;
@@ -80,14 +83,14 @@ app.patch("/car/:id", (req, res) => {
     if(color) car.color=color;
     if (price) car.price = price;
 
-    res.status(200).json(car);
+    res.status(200).json(cars);
 });
 
-app.delete("/car/:id", (req, res) => {
+app.delete("/api/cars/:id", (req, res) => {
 
     const id = Number(req.params.id);
 
-    const carIndex = car.findIndex(m => m.id === id);
+    const carIndex = cars.findIndex(m => m.id === id);
 
     if (carIndex === -1) {
         return res.status(404).json({ message: "car not found" });
